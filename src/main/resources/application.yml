@@ -1,0 +1,16 @@
+logging:
+  level:
+    com:
+      musebk:
+        service: info
+  charset:
+    console: utf-8
+    file: UTF-8
+  file:
+    name: ./logs/${spring.application.name}.log
+spring:
+  application:
+    name: ParseIpv6BinderDomain
+  config:
+    import:
+      - application-ddns.yml
