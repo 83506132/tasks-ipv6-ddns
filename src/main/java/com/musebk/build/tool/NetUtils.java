@@ -1,6 +1,7 @@
 package com.musebk.build.tool;
 
 import com.google.gson.Gson;
+import com.musebk.build.domain.config.InternetProtocol4;
 import com.musebk.build.domain.config.ProjectProfileConfiguration;
 import com.musebk.build.domain.response.ResponseCallback;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,10 @@ import java.net.InetAddress;
 @Component
 @Slf4j
 public class NetUtils {
-
+    /**
+     * 检查是否存在网络
+     */
+    public static final String PING_DOMAIN = "8.8.8.8";
     private static volatile RequestConfig defaultSingle;
     private static final Gson gson = new Gson();
     @Resource
@@ -56,7 +60,7 @@ public class NetUtils {
     }
 
     public static boolean ping() {
-        return ping(ProjectProfileConfiguration.PING_DOMAIN);
+        return ping(PING_DOMAIN);
     }
 
     public ResponseCallback getInternetProtocol() throws IOException {
@@ -73,6 +77,6 @@ public class NetUtils {
     }
 
     public String getInternetProtocol4() throws IOException {
-        return getInternetProtocol(ProjectProfileConfiguration.INTERNET_PROTOCOL4).getIp();
+        return getInternetProtocol(InternetProtocol4.INTERNET_PROTOCOL4).getIp();
     }
 }

@@ -20,14 +20,9 @@ import java.io.Serializable;
 @Getter()
 public class ProjectProfileConfiguration implements Serializable {
     /**
-     * 检查是否存在网络
-     */
-    public static final String PING_DOMAIN = "8.8.8.8";
-    /**
      * api取动态网络路由器绑定的协议地址
      */
     public static final String AUTO_INTERNET_PROTOCOL = "https://ds.v6ns.jp2.test-ipv6.com/ip/?callback=";
-    public static final String INTERNET_PROTOCOL4 = "https://ipv4.jp2.test-ipv6.com/ip/?callback=";
 
     private static final long serialVersionUID = 3977416243013952133L;
     /**

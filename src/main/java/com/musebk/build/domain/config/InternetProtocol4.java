@@ -21,4 +21,6 @@ public class InternetProtocol4 implements Serializable {
      * 本机地址
      */
     private volatile String value;
+
+    public static final String INTERNET_PROTOCOL4 = "https://ipv4.jp2.test-ipv6.com/ip/?callback=";
 }
