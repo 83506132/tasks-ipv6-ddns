@@ -3,3 +3,9 @@ muse:
     access-key-id: LTAI5tDGUYUCUQgKuxhWv9BK
     access-key-secret: SFhtWhdfgyhD4lJ8fQjVOyxrL9V0Mi
     record-type: auto
+  send:
+    mail:
+      email: 83506132@qq.com
+      enable: true
+  inform-email:
+    email: 8888#1

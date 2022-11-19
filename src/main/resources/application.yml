@@ -10,7 +10,7 @@ logging:
     name: ./logs/${spring.application.name}.log
 spring:
   application:
-    name: ParseIpv6BinderDomain
+    name: ParseIpBinderDomain
   config:
     import:
       - application-ddns.yml
