@@ -12,15 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.lang.reflect.Field;
+import java.io.File;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import static com.musebk.resolution.ResolverEntrance.PROPERTY_PREFIX;
 
@@ -38,10 +44,12 @@ public class MailService implements InformService {
     InformEmailProperties emailProperties;
 
     InternetAddress toEmail;
-
+    TemplateEngine templateEngine = new TemplateEngine();
     private Session sessionMail;
-
     private @Value("${debug:false}") boolean debug;
+    private @Value("${send.mail.template.dir:classpath:/mail/}") String dirTemplate;
+
+    private ConcurrentMap<String, String> cacheTemplate = new ConcurrentHashMap();
 
     @Autowired
     public void setToEmail(MailProfileProperties mailProfileProperties) throws AddressException {
@@ -50,6 +58,7 @@ public class MailService implements InformService {
 
     @PostConstruct
     void initial() throws GeneralSecurityException {
+        templateEngine.setTemplateResolver(new FileTemplateResolver());
         final PasswordAuthentication authentication = new PasswordAuthentication(emailProperties.getEmail(), emailProperties.getPwd());
         sessionMail = Session.getInstance(emailProperties.instanceProperty(), new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() {
@@ -73,24 +82,20 @@ public class MailService implements InformService {
     }
 
 
-    private List<Map.Entry<String, String>> getContext(String templatePath) {
-
-        return new ArrayList<>();
+    private String getContext(String templatePath) {
+        return cacheTemplate.computeIfAbsent(templatePath, name -> {
+            StringBuilder builder = new StringBuilder();
+            File file = new File(dirTemplate);
+            return builder.toString();
+        });
     }
 
-    private <T> String resolveTemplate(String templatePath, T data) throws NoSuchFieldException, IllegalAccessException {
-        StringBuilder context = new StringBuilder();
-        for (Map.Entry<String, String> o : getContext(templatePath)) {
-            context.append(o.getKey());
-            if (o.getValue() == null) {
-                continue;
-            }
-            Class<?> clazz = data.getClass();
-            Field field = clazz.getDeclaredField(o.getValue());
-            field.setAccessible(true);
-            context.append(field.get(data));
-        }
-        return context.toString();
+    private Map<String, Object> getContextVariable(Object obj) {
+        return new HashMap<>();
+    }
 
+
+    private <T> String resolveTemplate(String templatePath, T data) throws NoSuchFieldException, IllegalAccessException {
+        return templateEngine.process(getContext(templatePath), new Context(Locale.CHINESE, getContextVariable(data)));
     }
 }
