@@ -1,10 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Thymeleaf</title>
-</head>
-<body>
+    <meta charset="utf-8">
+    <title>Muse Local IP Resolution Message</title>
+    <style>
+        .txt {
+            text-align: center
+        }
 
+        .window {
+            max-height: 700px;
+            max-width: 600px;
+            background-color: #fff;
+            margin: auto;
+            box-sizing: border-box;
+            border-radius: 3px;
+            border: 1px solid #e9e9e9;
+        }
+
+        body {
+            background-color: #f6f6f6;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .wind-head {
+            color: #fff;
+            text-align: center;
+            font-size: 22px;
+            padding-top: 8px;
+            padding-bottom: 11px;
+            font-weight: 500;
+            text-align: center;
+            border-radius: 3px 3px 0 0;
+            background-color: #043377;
+        }
+
+        .div-head {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .div-body {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .wind-head + div {
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div>
+    <div class="window">
+        <div class="wind-head" th:text="${title}"></div>
+        <div>
+            <div class="div-head">阁下您好消息通知，</div>
+            <div>
+                <div class="div-body">内容: <span th:text="${context}"></span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="txt">© Muse Resolution LLC. All Rights Reserved.</footer>
 </body>
 </html>

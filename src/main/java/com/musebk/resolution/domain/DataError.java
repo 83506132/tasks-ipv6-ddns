@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class DataError {
-    public static final String TEMPLATE_NAME = "ErrorTemplate.mail";
+    public static final String TEMPLATE_NAME = "ErrorTemplate.html";
 
     private String title;
 
